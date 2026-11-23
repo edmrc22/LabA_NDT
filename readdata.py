@@ -58,8 +58,21 @@ for i in range(5):
 strain_x_fine *= 1e6
 strain_y_fine *= 1e6
 
-exx_vmin, exx_vmax = np.nanmin(strain_x_fine), np.nanmax(strain_x_fine)
-eyy_vmin, eyy_vmax = np.nanmin(strain_y_fine), np.nanmax(strain_y_fine)
+row = 3   # 4th cell
+col = 30  # 30th cell from left to right
+
+# Find the nearest indices in the fine interpolated grid
+ix = np.argmin(np.abs(xi - y_mid[col]))
+iy = np.argmin(np.abs(yi - x[row]))
+
+print(f"Sampling at coords: y = {xi[ix]:.1f} px, x = {yi[iy]:.1f} px")
+for i in range(5):
+    exx_val = strain_x_fine[i, iy, ix]
+    eyy_val = strain_y_fine[i, iy, ix]
+    print(f"Frame {i + 1}: exx = {exx_val:.2f} με | eyy = {eyy_val:.2f} με")
+
+exx_vmin, exx_vmax = np.nanmin(strain_x_fine), 2000
+eyy_vmin, eyy_vmax = np.nanmin(strain_y_fine), 2000
 
 
 mask_label = f'correlation mask ≥ {THRESHOLD}' if USE_CORR_MASK else 'no correlation mask'
@@ -79,7 +92,8 @@ for i in range(5):
     axes_x[i].set_ylim(x[0], x[-1])
     axes_x[i].xaxis.set_major_locator(ticker.MultipleLocator(500))
     axes_x[i].yaxis.set_major_locator(ticker.MultipleLocator(50))
-
+    axes_x[i].plot(xi[ix], yi[iy], 'c+', markersize=10, markeredgewidth=2)
+    axes_y[i].plot(xi[ix], yi[iy], 'c+', markersize=10, markeredgewidth=2)
 im1 = None
 for i in range(5):
     im1 = axes_y[i].imshow(strain_y_fine[i], **kw_eyy)
@@ -88,9 +102,11 @@ for i in range(5):
     axes_y[i].set_ylim(x[0], x[-1])
     axes_y[i].xaxis.set_major_locator(ticker.MultipleLocator(500))
     axes_y[i].yaxis.set_major_locator(ticker.MultipleLocator(50))
-
+    axes_x[i].plot(xi[ix], yi[iy], 'c+', markersize=10, markeredgewidth=2)
+    axes_y[i].plot(xi[ix], yi[iy], 'c+', markersize=10, markeredgewidth=2)
 axes_x[-1].set_xlabel('$y$ (px)')
 axes_y[-1].set_xlabel('$y$ (px)')
+
 
 fig_x.colorbar(im0, ax=axes_x, shrink=0.6, label=r'$\varepsilon_{xx}$ (με)')
 fig_y.colorbar(im1, ax=axes_y, shrink=0.6, label=r'$\varepsilon_{yy}$ (με)')
