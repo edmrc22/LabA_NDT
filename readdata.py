@@ -35,7 +35,7 @@ Ynod, Xmid = np.meshgrid(y_mid, x)    # (7, 53)
 Ymid, Xnod = np.meshgrid(y,   x_mid)  # (6, 54)
 
 THRESHOLD    = 0.9
-USE_CORR_MASK = False
+USE_CORR_MASK = True
 
 strain_x_fine = np.full((5, N_Y, N_X), np.nan)
 strain_y_fine = np.full((5, N_Y, N_X), np.nan)
@@ -104,8 +104,8 @@ for i in range(5):
     axes_y[i].yaxis.set_major_locator(ticker.MultipleLocator(50))
     axes_x[i].plot(xi[ix], yi[iy], 'c+', markersize=10, markeredgewidth=2)
     axes_y[i].plot(xi[ix], yi[iy], 'c+', markersize=10, markeredgewidth=2)
-axes_x[-1].set_xlabel('$y$ (px)')
-axes_y[-1].set_xlabel('$y$ (px)')
+axes_x[-1].set_xlabel('$x$ (px)')
+axes_y[-1].set_xlabel('$x$ (px)')
 
 
 fig_x.colorbar(im0, ax=axes_x, shrink=0.6, label=r'$\varepsilon_{xx}$ (με)')
