@@ -35,7 +35,7 @@ Ynod, Xmid = np.meshgrid(y_mid, x)    # (7, 53)
 Ymid, Xnod = np.meshgrid(y,   x_mid)  # (6, 54)
 
 THRESHOLD    = 0.9
-USE_CORR_MASK = True
+USE_CORR_MASK = False
 
 strain_x_fine = np.full((5, N_Y, N_X), np.nan)
 strain_y_fine = np.full((5, N_Y, N_X), np.nan)
@@ -71,8 +71,8 @@ for i in range(5):
     eyy_val = strain_y_fine[i, iy, ix]
     print(f"Frame {i + 1}: exx = {exx_val:.2f} με | eyy = {eyy_val:.2f} με")
 
-exx_vmin, exx_vmax = np.nanmin(strain_x_fine), 2000
-eyy_vmin, eyy_vmax = np.nanmin(strain_y_fine), 2000
+exx_vmin, exx_vmax = np.nanmin(strain_x_fine), np.nanmax(strain_x_fine)
+eyy_vmin, eyy_vmax = np.nanmin(strain_y_fine), np.nanmax(strain_y_fine)
 
 
 mask_label = f'correlation mask ≥ {THRESHOLD}' if USE_CORR_MASK else 'no correlation mask'
