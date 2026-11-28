@@ -71,8 +71,8 @@ for i in range(5):
     eyy_val = strain_y_fine[i, iy, ix]
     print(f"Frame {i + 1}: exx = {exx_val:.2f} με | eyy = {eyy_val:.2f} με")
 
-exx_vmin, exx_vmax = np.nanmin(strain_x_fine), np.nanmax(strain_x_fine)
-eyy_vmin, eyy_vmax = np.nanmin(strain_y_fine), np.nanmax(strain_y_fine)
+exx_vmin, exx_vmax = np.nanmin(strain_x_fine), 2000
+eyy_vmin, eyy_vmax = np.nanmin(strain_y_fine), 2000
 
 
 mask_label = f'correlation mask ≥ {THRESHOLD}' if USE_CORR_MASK else 'no correlation mask'
@@ -104,8 +104,8 @@ for i in range(5):
     axes_y[i].yaxis.set_major_locator(ticker.MultipleLocator(50))
     axes_x[i].plot(xi[ix], yi[iy], 'c+', markersize=10, markeredgewidth=2)
     axes_y[i].plot(xi[ix], yi[iy], 'c+', markersize=10, markeredgewidth=2)
-axes_x[-1].set_xlabel('$x$ (px)')
-axes_y[-1].set_xlabel('$x$ (px)')
+axes_x[-1].set_xlabel('$y$ (px)')
+axes_y[-1].set_xlabel('$y$ (px)')
 
 
 fig_x.colorbar(im0, ax=axes_x, shrink=0.6, label=r'$\varepsilon_{xx}$ (με)')
